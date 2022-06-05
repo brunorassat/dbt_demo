@@ -1,0 +1,45 @@
+version: 2
+models:
+- name: dim_date
+  description: ''
+  columns:
+  - name: date
+    description: ''
+  - name: date_ts
+    description: ''
+  - name: formatted_date
+    description: ''
+  - name: year
+    description: ''
+  - name: quartal
+    description: ''
+  - name: month
+    description: ''
+  - name: month_name
+    description: ''
+  - name: calendar_week
+    description: ''
+  - name: day
+    description: ''
+  - name: day_of_year
+    description: ''
+  - name: weekday_name
+    description: ''
+  - name: year_quartal
+    description: ''
+  - name: year_month
+    description: ''
+  - name: year_calendar_week
+    description: ''
+  - name: weekend
+    description: ''
+  - name: period
+    description: ''
+  - name: cw_start
+    description: ''
+  - name: cw_end
+    description: ''
+  - name: month_start
+    description: ''
+  - name: month_end
+    description: ''

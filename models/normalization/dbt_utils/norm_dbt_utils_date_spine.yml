@@ -1,0 +1,7 @@
+version: 2
+models:
+- name: norm_dbt_utils_date_spine
+  description: ''
+  columns:
+  - name: date_day
+    description: ''

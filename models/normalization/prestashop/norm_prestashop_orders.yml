@@ -1,0 +1,19 @@
+version: 2
+models:
+- name: norm_prestashop_orders
+  description: ''
+  columns:
+  - name: order_id
+    description: ''
+    tests:
+    - unique
+    - not_null
+  - name: customer_id
+    description: ''
+  - name: order_date
+    description: ''
+  - name: status
+    description: ''
+    tests:
+    - accepted_values:
+        values: [placed, shipped, completed, return_pending, returned]

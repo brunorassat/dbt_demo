@@ -1,16 +1,9 @@
 {% set payment_methods = ['credit_card', 'coupon', 'bank_transfer', 'gift_card'] %}
 
-with orders as (
+with 
 
-    select * from {{ ref('stg_orders') }}
-
-),
-
-payments as (
-
-    select * from {{ ref('stg_payments') }}
-
-),
+norm_prestashop_orders as (select * from {{ ref('norm_prestashop_orders') }}),
+norm_prestashop_payments as (select * from {{ ref('norm_prestashop_payments') }}),
 
 order_payments as (
 
@@ -22,9 +15,7 @@ order_payments as (
         {% endfor -%}
 
         sum(amount) as total_amount
-
-    from payments
-
+    from norm_prestashop_payments
     group by order_id
 
 ),
@@ -32,24 +23,18 @@ order_payments as (
 final as (
 
     select
-        orders.order_id,
-        orders.customer_id,
-        orders.order_date,
-        orders.status,
+        norm_prestashop_orders.order_id,
+        norm_prestashop_orders.customer_id,
+        norm_prestashop_orders.order_date,
+        norm_prestashop_orders.status,
 
         {% for payment_method in payment_methods -%}
-
         order_payments.{{ payment_method }}_amount,
-
         {% endfor -%}
 
         order_payments.total_amount as amount
-
-    from orders
-
-
-    left join order_payments
-        on orders.order_id = order_payments.order_id
+    from norm_prestashop_orders
+    left join order_payments on norm_prestashop_orders.order_id = order_payments.order_id
 
 )
 

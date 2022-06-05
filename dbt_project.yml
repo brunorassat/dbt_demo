@@ -18,6 +18,7 @@ test-paths: ["tests"]
 seed-paths: ["seeds"]
 macro-paths: ["macros"]
 snapshot-paths: ["snapshots"]
+docs-paths: ["documentation"]
 
 target-path: "target"  # directory which will store compiled SQL files
 clean-targets:         # directories to be removed by `dbt clean`
@@ -35,7 +36,7 @@ clean-targets:         # directories to be removed by `dbt clean`
 models:
   dbt_tds:
       materialized: table
-      staging:
+      sources:
         materialized: view
 
 seeds:

@@ -1,0 +1,19 @@
+version: 2
+models:
+- name: norm_prestashop_payments
+  description: ''
+  columns:
+  - name: payment_id
+    description: ''
+    tests:
+    - unique
+    - not_null
+  - name: order_id
+    description: ''
+  - name: payment_method
+    description: ''
+    tests:
+    - accepted_values:
+        values: [credit_card, coupon, bank_transfer, gift_card]
+  - name: amount
+    description: ''
