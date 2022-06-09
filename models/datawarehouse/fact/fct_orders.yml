@@ -9,15 +9,19 @@ models:
     tests:
     - unique
     - not_null
-  - name: customer_id
+  - name: customer_key
     description: Foreign key to the dim_customers table
     tests:
     - not_null
     - relationships:
         to: ref('dim_customers')
-        field: customer_id
+        field: customer_key
   - name: order_date
     description: Date (UTC) that the order was placed
+    tests:
+    - relationships:
+        to: ref('dim_date')
+        field: date
   - name: status
     description: '{{ doc("orders_status") }}'
     tests:

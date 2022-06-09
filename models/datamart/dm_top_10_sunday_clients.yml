@@ -4,10 +4,10 @@ models:
   description: ''
   columns:
   - name: customer_name
-    description: ''
+    description: Nom complet du client
   - name: total_customer_paid
-    description: ''
+    description: Dépense totale du client pour les journées du dimanche
   - name: total_orders_placed
-    description: ''
+    description: Commandes totales du client pour les journées du dimanche
   - name: customer_ranking
     description: ''
