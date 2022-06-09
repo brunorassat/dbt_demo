@@ -1,6 +1,6 @@
 with 
 
-source as (select * from {{ source('tds_raw', 'raw_customers') }} ),
+source as (select * from {{ source('tds_staging', 'raw_customers') }} ),
 
 renamed as (
 
