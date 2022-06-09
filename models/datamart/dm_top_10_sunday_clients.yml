@@ -1,0 +1,13 @@
+version: 2
+models:
+- name: dm_top_10_sunday_clients
+  description: ''
+  columns:
+  - name: customer_name
+    description: ''
+  - name: total_customer_paid
+    description: ''
+  - name: total_orders_placed
+    description: ''
+  - name: customer_ranking
+    description: ''

@@ -23,9 +23,9 @@ order_payments as (
 final as (
 
     select
-        norm_prestashop_orders.order_id,
-        norm_prestashop_orders.customer_id,
+        {{dbt_utils.surrogate_key(["norm_prestashop_orders.customer_id"])}} as customer_key,
         norm_prestashop_orders.order_date,
+        norm_prestashop_orders.order_id,
         norm_prestashop_orders.status,
 
         {% for payment_method in payment_methods -%}
