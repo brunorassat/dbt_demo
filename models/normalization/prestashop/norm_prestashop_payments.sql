@@ -1,6 +1,14 @@
+{{
+  config(
+    materialized='incremental',
+    unique_key='payment_id',
+    sort = ['payment_id']
+  )
+}}
+
 with 
 
-source as (select * from {{ source('tds_staging', 'raw_payments') }} ),
+source as (select * from {{ source('tds_raw', 'raw_payments') }} ),
 
 renamed as (
 
@@ -16,3 +24,10 @@ renamed as (
 )
 
 select * from renamed
+
+{% if is_incremental() %}
+
+-- this filter will only be applied on an incremental run
+where payment_id > (select max(payment_id) from {{ this }})
+
+{% endif %}

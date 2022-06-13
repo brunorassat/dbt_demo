@@ -1,10 +1,10 @@
 version: 2
 
 sources:
-  - name: tds_staging
+  - name: tds_raw
     description: A replica of Prestashop database
     database: tds_warehouse
-    schema: tds_staging
+    schema: tds_raw
     loader: seed
 
     tables:

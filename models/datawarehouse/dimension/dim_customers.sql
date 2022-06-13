@@ -1,3 +1,11 @@
+{{
+  config(
+    materialized='incremental',
+    unique_key='customer_id',
+    sort = ['customer_id']
+  )
+}}
+
 with 
 
 norm_prestashop_customers as (select * from {{ ref('norm_prestashop_customers') }}),
@@ -14,3 +22,10 @@ final as (
 )
 
 select * from final
+
+{% if is_incremental() %}
+
+-- this filter will only be applied on an incremental run
+where customer_id > (select max(customer_id) from {{ this }})
+
+{% endif %}
