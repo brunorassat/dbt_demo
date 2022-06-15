@@ -1,13 +1,20 @@
 version: 2
 models:
 - name: dm_top_10_sunday_clients
-  description: ''
+  description: Ce modèle dessert l'équipe Marketing pour récompenser nos 10 meilleurs
+    clients sur nos opérations dominicales
   columns:
   - name: customer_name
     description: Nom complet du client
   - name: total_customer_paid
     description: Dépense totale du client pour les journées du dimanche
+    tests:
+    - dbt_utils.expression_is_true:
+        expression: '> 0'
   - name: total_orders_placed
     description: Commandes totales du client pour les journées du dimanche
+    tests:
+    - dbt_utils.expression_is_true:
+        expression: '> 0'
   - name: customer_ranking
-    description: ''
+    description: Classement du client
