@@ -1,13 +1,5 @@
 {% set payment_methods = ['credit_card', 'coupon', 'bank_transfer', 'gift_card'] %}
 
-{{
-  config(
-    materialized='incremental',
-    unique_key='order_id',
-    sort = ['order_id']
-  )
-}}
-
 with 
 
 norm_prestashop_orders as (select * from {{ ref('norm_prestashop_orders') }}),
@@ -31,7 +23,7 @@ order_payments as (
 final as (
 
     select
-        {{dbt_utils.surrogate_key(["norm_prestashop_orders.customer_id"])}} as customer_key,
+        {{dbt_utils.generate_surrogate_key(["norm_prestashop_orders.customer_id"])}} as customer_key,
         norm_prestashop_orders.order_date,
         norm_prestashop_orders.order_id,
         norm_prestashop_orders.status,
@@ -47,10 +39,3 @@ final as (
 )
 
 select * from final
-
-{% if is_incremental() %}
-
--- this filter will only be applied on an incremental run
-where order_date > (select max(order_date) from {{ this }})
-
-{% endif %}

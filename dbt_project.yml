@@ -2,12 +2,12 @@
 # Name your project! Project names should contain only lowercase characters
 # and underscores. A good package name should reflect your organization's
 # name or the intended use of these models
-name: 'dbt_tds'
+name: 'dbt_demo'
 version: '1.0.0'
 config-version: 2
 
 # This setting configures which "profile" dbt uses for this project.
-profile: 'dbt_tds'
+profile: 'dbt_demo'
 
 # These configurations specify where dbt should look for different types of files.
 # The `model-paths` config, for example, states that models in this project can be
@@ -34,12 +34,12 @@ clean-targets:         # directories to be removed by `dbt clean`
 # using the `{{ config(...) }}` macro.
 
 models:
-  dbt_tds:
+  dbt_demo:
       +incremental_strategy: "insert_overwrite"
       materialized: table
       sources:
         materialized: view
 
 seeds:
-  dbt_tds:
-    schema: tds_raw
+  dbt_demo:
+    schema: prestashop

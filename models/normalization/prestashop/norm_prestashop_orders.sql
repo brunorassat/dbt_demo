@@ -1,14 +1,6 @@
-{{
-  config(
-    materialized='incremental',
-    unique_key='order_id',
-    sort = ['order_id']
-  )
-}}
-
 with 
 
-source as (select * from {{ source('tds_raw', 'raw_orders') }} ),
+source as (select * from {{ source('prestashop', 'raw_orders') }} ),
 
 renamed as (
 
@@ -22,10 +14,3 @@ renamed as (
 )
 
 select * from renamed
-
-{% if is_incremental() %}
-
--- this filter will only be applied on an incremental run
-where order_date > (select max(order_date) from {{ this }})
-
-{% endif %}

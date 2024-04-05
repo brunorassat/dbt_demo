@@ -2,38 +2,42 @@ with
 
 norm_dbt_utils_date_spine as (select * from {{ref('norm_dbt_utils_date_spine')}}),
 
+pre_final as (
+
+    select
+        cast(date_day as date) as date,
+        extract(year from date_day) as year,
+        'q' || extract(quarter from date_day) as quartal,
+        extract(month from date_day) as month,
+        {{ dbt_date.month_name('date_day', short=false) }} as month_name,
+        {{ dbt_date.iso_week_of_year('date_day') }} as iso_week_of_year,
+        {{ dbt_date.day_of_month('date_day') }} as day_of_month,
+        {{ cast_date_to_string('date_day', 'MM/YYYY') }} as year_month,
+        {{ cast_date_to_string('date_day', 'DD/MM') }} as day_month,
+        {{ cast_date_to_string('date_day', 'DD/MM/YY') }} as day_month_year,
+        {{ dbt_date.day_of_year('date_day') }} as day_of_year,
+        {{ dbt_date.day_name('date_day', short=false) }} as day_name,
+        current_date as today_date,
+        current_timestamp() as now_timestamp,
+        case when cast(date_day as date) <= current_date then true else false end as has_passed
+        -- to_char(date_day, 'yyyy/"q"q') as year_quartal,
+        -- to_char(date_day, 'iyyy/iw') as year_calendar_week -- ISO calendar year and week
+    from norm_dbt_utils_date_spine
+
+),
+
 final as (
 
     select
-        date_day::date as date,
-        date_day as date_ts,
-        to_char(date_day, 'dd. mm. yyyy') AS formatted_date,
-        date_part('year', date_day) as year,
-        'q' || to_char(date_day, 'q') as quartal,
-        date_part('month', date_day) as month,
-        to_char(date_day, 'tmmonth') as month_name, -- Localized month name
-        date_part('week', date_day) as calendar_week, -- ISO calendar week
-        date_part('day', date_day) as day,
-        date_part('doy', date_day) as day_of_year,
-        to_char(date_day, 'tmday') as weekday_name, -- Localized weekday
+        *,
+        {{ cast_timestamptz_to_date(dbt.date_trunc('month', 'date'), 'Asia/Ho_Chi_Minh') }} as month_date,
+        case when
+        {{ cast_timestamptz_to_date(dbt.date_trunc('month', 'date'), 'Asia/Ho_Chi_Minh') }} > {{ cast_timestamptz_to_date(dbt.date_trunc('month', date_sub('current_date', 1, 'YEAR')), 'Asia/Ho_Chi_Minh') }}
+        and 
+        {{ cast_timestamptz_to_date(dbt.date_trunc('month', 'date'), 'Asia/Ho_Chi_Minh') }} <= {{ cast_timestamptz_to_date(dbt.date_trunc('month', 'current_date'), 'Asia/Ho_Chi_Minh') }}
+        then true else false end as is_last_12_full_months
+    from pre_final
 
-        to_char(date_day, 'yyyy/"q"q') as year_quartal,
-        to_char(date_day, 'yyyy/mm') as year_month,
-        to_char(date_day, 'iyyy/iw') as year_calendar_week, -- ISO calendar year and week
-
-        case when extract(isodow from date_day) in (6, 7) then 'weekend' else 'weekday' end as weekend, -- Weekend
-        case 
-            when to_char(date_day, 'mmdd') between '0701' and '0831' then 'summer break'
-            when to_char(date_day, 'mmdd') between '1115' and '1225' then 'christmas season'
-            when to_char(date_day, 'mmdd') > '1225' or to_char(date_day, 'mmdd') <= '0106' then 'winter break'
-            else 'normal' 
-        end as period,
-        date_day::date + (1 - extract(isodow from date_day))::integer as cw_start, -- ISO start and end of the week of this date
-        date_day::date + (7 - extract(isodow from date_day))::integer as cw_end,
-        date_day::date + (1 - extract(day from date_day))::integer as month_start, -- Start and end of the month of this date
-        (date_day::date + (1 - extract(day from date_day))::integer + '1 month'::interval - '1 day'::interval)::date as month_end
-
-    from norm_dbt_utils_date_spine
 
 )
 

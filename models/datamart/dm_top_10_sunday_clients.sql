@@ -12,7 +12,7 @@ customer_sunday_payments as (
         count(order_id) as total_orders_placed
     from fct_orders
     left join dim_date on fct_orders.order_date = dim_date.date
-    where weekday_name = 'sunday'
+    where day_name = 'Sunday'
     group by 1
 
 ),

@@ -1,14 +1,6 @@
-{{
-  config(
-    materialized='incremental',
-    unique_key='customer_id',
-    sort = ['customer_id']
-  )
-}}
-
 with 
 
-source as (select * from {{ source('tds_raw', 'raw_customers') }} ),
+source as (select * from {{ source('prestashop', 'raw_customers') }} ),
 
 renamed as (
 
@@ -21,10 +13,3 @@ renamed as (
 )
 
 select * from renamed
-
-{% if is_incremental() %}
-
--- this filter will only be applied on an incremental run
-where customer_id > (select max(customer_id) from {{ this }})
-
-{% endif %}
