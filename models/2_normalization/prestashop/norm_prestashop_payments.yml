@@ -1,19 +1,19 @@
 version: 2
 models:
-- name: norm_prestashop_payments
-  description: ''
-  columns:
-  - name: payment_id
-    description: ''
-    tests:
-    - unique
-    - not_null
-  - name: order_id
-    description: ''
-  - name: payment_method
-    description: ''
-    tests:
-    - accepted_values:
-        values: [credit_card, coupon, bank_transfer, gift_card]
-  - name: amount
-    description: ''
+  - name: norm_prestashop_payments
+    description: "This model represents normalized payment data from PrestaShop."
+    columns:
+      - name: payment_id
+        description: "The unique identifier for each payment."
+        tests:
+          - unique
+          - not_null
+      - name: order_id
+        description: "The identifier of the order associated with the payment."
+      - name: payment_method
+        description: "The method used for payment."
+        tests:
+          - accepted_values:
+              values: [credit_card, coupon, bank_transfer, gift_card]
+      - name: amount
+        description: "The amount of the payment."

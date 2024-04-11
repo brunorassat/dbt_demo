@@ -1,45 +1,55 @@
-version: 2
 models:
-- name: dim_date
-  description: Dimension de date
-  columns:
-  - name: date
-    description: ''
-  - name: date_ts
-    description: ''
-  - name: formatted_date
-    description: ''
-  - name: year
-    description: ''
-  - name: quartal
-    description: ''
-  - name: month
-    description: ''
-  - name: month_name
-    description: ''
-  - name: calendar_week
-    description: ''
-  - name: day
-    description: ''
-  - name: day_of_year
-    description: ''
-  - name: weekday_name
-    description: ''
-  - name: year_quartal
-    description: ''
-  - name: year_month
-    description: ''
-  - name: year_calendar_week
-    description: ''
-  - name: weekend
-    description: ''
-  - name: period
-    description: ''
-  - name: cw_start
-    description: ''
-  - name: cw_end
-    description: ''
-  - name: month_start
-    description: ''
-  - name: month_end
-    description: ''
+  - name: dim_date
+    description: "This dimensional model represents dates and various attributes associated with them."
+    columns:
+      - name: date
+        data_type: date
+        description: "The date value."
+      - name: year
+        data_type: int64
+        description: "The year part of the date."
+      - name: quartal
+        data_type: string
+        description: "The quarter of the year (e.g., Q1, Q2, etc.)."
+      - name: month
+        data_type: int64
+        description: "The month part of the date (1-12)."
+      - name: month_name
+        data_type: string
+        description: "The name of the month (e.g., January, February, etc.)."
+      - name: iso_week_of_year
+        data_type: int64
+        description: "The ISO week number of the year (1-53)."
+      - name: day_of_month
+        data_type: int64
+        description: "The day of the month (1-31)."
+      - name: year_month
+        data_type: string
+        description: "The year and month in 'YYYY-MM' format."
+      - name: day_month
+        data_type: string
+        description: "The day and month in 'DD-MM' format."
+      - name: day_month_year
+        data_type: string
+        description: "The day, month, and year in 'DD-MM-YYYY' format."
+      - name: day_of_year
+        data_type: int64
+        description: "The day of the year (1-366)."
+      - name: day_name
+        data_type: string
+        description: "The name of the day (e.g., Monday, Tuesday, etc.)."
+      - name: today_date
+        data_type: date
+        description: "The current date."
+      - name: now_timestamp
+        data_type: timestamp
+        description: "The current timestamp."
+      - name: has_passed
+        data_type: boolean
+        description: "Boolean indicating whether the date has already passed."
+      - name: month_date
+        data_type: date
+        description: "The month date, stripping the day part (e.g., if the input date is '2024-04-11', the output would be '2024-04-01')."
+      - name: is_last_12_full_months
+        data_type: boolean
+        description: "Boolean indicating whether the date falls within the last 12 full months from the current date."

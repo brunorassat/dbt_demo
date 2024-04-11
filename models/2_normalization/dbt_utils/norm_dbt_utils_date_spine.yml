@@ -1,7 +1,7 @@
 version: 2
 models:
-- name: norm_dbt_utils_date_spine
-  description: ''
-  columns:
-  - name: date_day
-    description: ''
+  - name: norm_dbt_utils_date_spine
+    description: "This model represents a normalized date spine, which provides a comprehensive range of dates for analysis."
+    columns:
+      - name: date_day
+        description: "The date value representing a day within the date spine."
