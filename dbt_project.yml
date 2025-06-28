@@ -37,8 +37,6 @@ models:
   dbt_demo:
       +incremental_strategy: "insert_overwrite"
       materialized: table
-      sources:
-        materialized: view
 
 seeds:
   dbt_demo:
